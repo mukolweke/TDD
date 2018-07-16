@@ -1,0 +1,10 @@
+#forum app
+
+ 1. Thread
+
+ 2. Reply to a thread/ response
+
+ 3. User;
+
+        thread is created by User,
+        reply belongs to a thread and also user
