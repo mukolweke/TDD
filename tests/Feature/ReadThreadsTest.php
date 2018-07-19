@@ -17,7 +17,7 @@ class ReadThreadsTest extends TestCase
         parent::setUp();
 
         // create a thread
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
 
@@ -42,9 +42,7 @@ class ReadThreadsTest extends TestCase
 
 
         // thread has replies
-        $reply = factory('App\Reply')
-            ->create(['thread_id'=> $this->thread->id]);
-
+        $reply = create('App\Reply',['thread_id'=> $this->thread->id]);
 
 
         // when we visit the thread page then we  should see replies
