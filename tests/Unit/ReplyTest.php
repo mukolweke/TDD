@@ -7,10 +7,15 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
+/**
+ * @property  thread
+ */
 class ReplyTest extends TestCase
 {
 
     use DatabaseMigrations;
+
+    protected $thread;
 
     public function setUp()
     {
