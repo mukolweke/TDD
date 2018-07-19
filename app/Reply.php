@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
 
-    protected  $guarded = [];
+    protected $guarded = [];
 
     public function owner(){
 
