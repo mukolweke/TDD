@@ -27,12 +27,11 @@ class ParticipateInForumTest extends TestCase
 
         $this->actingAs($user);
 
-        dd(auth()->user());
-
         $thread = factory('App\Thread')->create();
 
         // user adds a reply to thread
         $reply = factory('App\Reply')->make();
+
         $this->post($thread->path() . $thread->id . '/replies', $reply->toArray());
 
         // reply visible
