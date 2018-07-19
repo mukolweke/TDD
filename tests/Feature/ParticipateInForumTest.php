@@ -10,6 +10,8 @@ class ParticipateInForumTest extends TestCase
     use DatabaseMigrations;
 
 
+    protected $thread;
+
     function unauthenticated_user_may_not_reply()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
@@ -23,16 +25,14 @@ class ParticipateInForumTest extends TestCase
     function an_authenticated_user_may_participate_in_forum()
     {
         // authenticated user, existing thread.
-        $user = factory('App\User')->create();  // be logs in user
-
-        $this->actingAs($user);
+        $this->actingAs(factory('App\User')->create());
 
         $thread = factory('App\Thread')->create();
 
         // user adds a reply to thread
         $reply = factory('App\Reply')->make();
-
-        $this->post($thread->path() . $thread->id . '/replies', $reply->toArray());
+//dd($thread->path() . $thread->id );
+        $this->get($thread->path() . $thread->id . '/replies', $reply->toArray());
 
         // reply visible
         $this->get($thread->path())
