@@ -48,10 +48,10 @@ class CreateThreadsTest extends TestCase
         //hit endpoint to create a new thread
         $thread = make('App\Thread'); // return array, make/create object
 
-        $this->post('/threads', $thread->toArray());
+        $response = $this->post('/threads', $thread->toArray());
 
 
-        $this->get('/threads/'.$thread->id)     // then visit thread page
+        $this->get($response->headers->get('Location'))     // then visit thread page
             ->assertSee($thread->title) // see new thread
             ->assertSee($thread->body);
     }
@@ -73,6 +73,45 @@ class CreateThreadsTest extends TestCase
     {
         $this->app->instance(ExceptionHandler::class, $this->oldExceptionHandler);
         return $this;
+    }
+
+    /** @test */
+    function a_thread_requires_a_title()
+    {
+        $this->publishThreads(['title'=>null])
+            ->assertSessionHasErrors('title');
+
+    }
+
+    /** @test */
+    function a_thread_requires_a_body()
+    {
+        $this->publishThreads(['body'=>null])
+            ->assertSessionHasErrors('body');
+
+    }
+
+    /** @test */
+    function a_thread_requires_a_valid_channel()
+    {
+        factory('App\Channel',2)->create();
+
+        $this->publishThreads(['channel_id'=>null])
+            ->assertSessionHasErrors('channel_id');
+
+        $this->publishThreads(['channel_id'=>999])
+            ->assertSessionHasErrors('channel_id');
+
+    }
+
+
+    public function publishThreads($overrides = [])
+    {
+        $this->withExceptionHandling()->signIn();
+
+        $thread = make('App\Thread',$overrides);
+
+        return $this->post('/threads', $thread->toArray());
     }
 
 }
