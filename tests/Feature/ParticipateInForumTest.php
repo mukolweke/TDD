@@ -2,39 +2,36 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ParticipateInForumTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     protected $thread;
 
     function unauthenticated_user_may_not_reply()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->post('/threads/1/replies', []);
+        $this->withExceptionHandling()
+            ->post('/threads/some-channel/1/replies', [])
+            ->assertRedirect('/login');
     }
 
 
     /** @test */
-
-    function an_authenticated_user_may_participate_in_forum()
+    function an_authenticated_user_may_participate_in_forum_threads()
     {
-        // authenticated user, existing thread.
         $this->signIn();
 
         $thread = create('App\Thread');
-
-        // user adds a reply to thread
         $reply = make('App\Reply');
 
-        $this->post($thread->path() . $thread->id . '/replies', $reply->toArray());
+        $this->post($thread->path() . '/replies', $reply->toArray());
 
-        // reply visible
         $this->get($thread->path())
             ->assertSee($reply->body);
+
+//        $this->assertEquals('kuku','kuku');
     }
 }

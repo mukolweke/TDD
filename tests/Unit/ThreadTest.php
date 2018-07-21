@@ -5,15 +5,14 @@ namespace Tests\Unit;
 use App\Thread;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ThreadTest extends TestCase
 {
 
-    use DatabaseMigrations;
-
-//    protected $thread;
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -21,17 +20,6 @@ class ThreadTest extends TestCase
 
         // create a thread
         $this->thread = create('App\Thread');
-    }
-
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
-    {
-        $this->assertTrue(true);
     }
 
     /** @test */
@@ -59,5 +47,22 @@ class ThreadTest extends TestCase
         // thread reply relationship ...
         $this->assertCount(1, $this->thread->replies);
 
+    }
+
+    /** @test */
+    function a_thread_belongs_to_a_channel()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertInstanceOf('App\Channel',$thread->channel);
+    }
+
+
+    /** @test */
+    function a_thread_can_make_a_string_path()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
     }
 }
