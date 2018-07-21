@@ -13,8 +13,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ReplyTest extends TestCase
 {
 
-    use DatabaseMigrations;
-
     protected $thread;
 
     public function setUp()
@@ -29,7 +27,8 @@ class ReplyTest extends TestCase
     /** @test **/
     public function a_user_can_view_all_threads()
     {
-        $this->get('/threads')
+//        dd('mike');
+        $this->get($this->thread->path())
             ->assertSee($this->thread->title);
 
     }
@@ -37,7 +36,8 @@ class ReplyTest extends TestCase
     /** @test **/
     public function a_user_can_view_a_single_threads()
     {
-        $this->get('/threads/' .$this->thread->id)
+//        dd($this->thread->path().$this->thread->id);
+        $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
@@ -53,7 +53,7 @@ class ReplyTest extends TestCase
 
 
         // when we visit the thread page then we  should see replies
-        $this->get('/threads/' .$this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($reply->body);
 
 
