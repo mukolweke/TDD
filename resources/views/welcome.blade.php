@@ -10,6 +10,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
         <!-- Styles -->
         <style>
             html, body {
@@ -63,6 +65,8 @@
                 margin-bottom: 30px;
             }
         </style>
+
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -79,7 +83,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Forum
                 </div>
 
                 <div class="links">
