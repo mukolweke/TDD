@@ -41,15 +41,11 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function an_authenticated_user_can_create_new_forum_thread()
     {
-        // given we have a signed user
         $this->signIn();
 
-
-        //hit endpoint to create a new thread
-        $thread = make('App\Thread'); // return array, make/create object
+        $thread = make('App\Thread');
 
         $response = $this->post('/threads', $thread->toArray());
-
 
         $this->get($response->headers->get('Location'))     // then visit thread page
             ->assertSee($thread->title) // see new thread
