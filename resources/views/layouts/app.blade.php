@@ -10,6 +10,8 @@
 
     <title>{{ config('app.name', 'Forum') }}</title>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
      <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -105,8 +107,6 @@
     </main>
 
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 </div>
 </body>
 </html>

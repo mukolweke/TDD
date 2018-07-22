@@ -17,7 +17,9 @@ class FavoritesController extends Controller
     public function store(Reply $reply)
     {
        // a reply can be favorited
-        return $reply->favorite();
+         $reply->favorite();
+
+        return back();
 
 
 //        Favorite::create([
