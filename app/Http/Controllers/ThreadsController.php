@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Filters\ThreadFilter;
 use App\Thread;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,9 +21,10 @@ class ThreadsController extends Controller
      * Display a listing of the resource.
      *
      * @param Channel $channel
+     * @param ThreadFilter $filters
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilter $filters)
     {
         if($channel->exists){
             $threads = $channel->threads()->latest();
@@ -38,6 +40,13 @@ class ThreadsController extends Controller
         }
 
         $threads = $threads->get();
+//
+//        $threads = $this->getThreads($channel, $filters);
+//
+//        if(request()->wantsJson())
+//        {
+//            return $threads;
+//        }
 
         return view('threads.index', compact('threads'));
     }
@@ -125,5 +134,17 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    public function getThreads(Channel $channel, ThreadFilter $threadFilter)
+    {
+        $threads = Thread::latest()->filter($threadFilter);
+
+        if($channel->exists)
+        {
+            $threads->where('channel_id', $channel->id);
+        }
+
+        return $threads->get();
     }
 }
