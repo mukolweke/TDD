@@ -10,11 +10,12 @@ namespace App\Filters;
 
 use App\User;
 
-class ThreadFilter
+class ThreadFilter extends Filters
 {
     protected $filters = ['by', 'popular'];
     protected $builder;
 
+//    filter a query by the username
     protected function by($username)
     {
         $user = User::where('name', $username)->firstOrfail();

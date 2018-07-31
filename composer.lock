@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5bca48e56bbf3a25645858fcab9c285",
+    "content-hash": "cda6012b7ffc7dcc6120c473080e34b8",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -452,6 +452,49 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "laravel-frontend-presets/zurb-foundation",
+            "version": "v1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-frontend-presets/zurb-foundation.git",
+                "reference": "265a8099820b8ea2e4f8bcdf0857bce910f991a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-frontend-presets/zurb-foundation/zipball/265a8099820b8ea2e4f8bcdf0857bce910f991a9",
+                "reference": "265a8099820b8ea2e4f8bcdf0857bce910f991a9",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelFrontendPresets\\ZurbFoundationPreset\\ZurbFoundationPresetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelFrontendPresets\\ZurbFoundationPreset\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel 5.5.x Front-end preset for Zurb Foundation",
+            "keywords": [
+                "foundation",
+                "laravel",
+                "preset",
+                "zurb-foundation"
+            ],
+            "time": "2018-02-15T17:07:42+00:00"
         },
         {
             "name": "laravel/framework",

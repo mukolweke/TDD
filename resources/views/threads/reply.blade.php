@@ -3,7 +3,7 @@
         <div class="level">
             <h5 class="flex">
                 <a href="#">{{$reply->owner->name}}</a>
-                said  {{ $reply->created_at->diffForHumans() }} ...
+                said {{ $reply->created_at->diffForHumans() }} ...
 
             </h5>
 
@@ -24,4 +24,4 @@
     <div class="card-section">
         {{$reply->body}}
     </div>
-</div
+</div>
