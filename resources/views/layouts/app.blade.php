@@ -12,17 +12,17 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
+     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+
+    <style rel="stylesheet">
+        body{ padding-bottom: 100px;}
+        .level{ display:flex;align-items: center}
+        .flex{ flex: 1;}
+    </style>
 </head>
 <body>
-<div id="app" style="padding-bottom: 100px;">
+<div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -43,9 +43,12 @@
 
                         <ul class="dropdown-menu">
                             <li><a href="/threads">All Threads</a></li>
+
                             @if(auth()->check())
                                 <li><a href="/threads?by{{auth()->user()->name}}">My Threads</a></li>
                             @endif
+
+                            <li><a href="/threads?popular=1">Popular All Threads</a></li>
                         </ul>
                     </li>
 
@@ -102,6 +105,8 @@
     <main class="py-4">
         @yield('content')
     </main>
+
+
 </div>
 </body>
 </html>

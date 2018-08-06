@@ -1,6 +1,24 @@
-<div class="card" style="padding: 10px;">
+<div class="card" style="padding: 10px;margin-bottom: 20px;">
     <div class="card-header">
-        <a href="#">{{$reply->owner->name}}</a>   said  {{ $reply->created_at->diffForHumans() }} ...
+        <div class="level">
+            <h5 class="flex">
+                <a href="#">{{$reply->owner->name}}</a>
+                said {{ $reply->created_at->diffForHumans() }} ...
+
+            </h5>
+
+            <div>
+                <form method="post" action="/replies/{{$reply->id}}/favorites">
+
+                    {{csrf_field()}}
+
+                    <button type="submit" class="btn btn-default" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+                        {{$reply->favorites_count}}{{str_plural(' like', $reply->favorites_count)}}
+                    </button>
+
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="card-section">
