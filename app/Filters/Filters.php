@@ -13,8 +13,11 @@ use Illuminate\Http\Request;
 
 abstract class Filters
 {
-    protected $request, $builder;
-    protected $filters = ['by'];
+    protected $request;
+
+    protected $builder;
+
+    protected $filters = [];
 
 
     public function __construct(Request $request)
@@ -26,8 +29,8 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-        foreach ($this->getFilters() as $filter => $value){
-            if (method_exists($this, $filter)){
+        foreach ($this->getFilters() as $filter => $value) {
+            if (method_exists($this, $filter)) {
                 $this->$filter($value);
             }
         }
@@ -37,6 +40,6 @@ abstract class Filters
 
     public function getFilters()
     {
-        return $this->request->intersect($this->filters);
+        return $this->request->only($this->filters);
     }
 }

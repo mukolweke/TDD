@@ -13,7 +13,7 @@ use App\User;
 class ThreadFilter extends Filters
 {
     protected $filters = ['by', 'popular'];
-    protected $builder;
+
 
 //    filter a query by the username
     protected function by($username)
@@ -32,7 +32,7 @@ class ThreadFilter extends Filters
     {
         $this->builder->getQuery()->orders = [];
 
-        return $this->builder->orderBy('relies_count', 'desc');
+        return $this->builder->orderBy('replies_count', 'desc');
     }
 
 }
