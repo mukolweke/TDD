@@ -6,14 +6,13 @@
                 said {{ $reply->created_at->diffForHumans() }} ...
 
             </h5>
-
-            <div>
+.            <div>
                 <form method="post" action="/replies/{{$reply->id}}/favorites">
 
                     {{csrf_field()}}
 
                     <button type="submit" class="btn btn-default" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                        {{$reply->favorites_count}}{{str_plural(' like', $reply->favorites_count)}}
+                        {{$reply->favourites_count}}{{str_plural(' like', $reply->favourites_count)}}
                     </button>
 
                 </form>

@@ -16,16 +16,7 @@ class FavoritesController extends Controller
 
     public function store(Reply $reply)
     {
-       // a reply can be favorited
-         $reply->favorite();
-
-        return back();
-
-
-//        Favorite::create([
-//            'user_id' => auth()->user()->id,
-//            'favorited_id' => $reply->id,
-//            'favorited_type' => get_class($reply)
-//        ]);
+        // a reply can be favorited; relationship favourite
+        $reply->favorite();
     }
 }

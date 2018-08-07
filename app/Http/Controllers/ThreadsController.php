@@ -78,8 +78,6 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
-
-
         return view('threads.show', [
             'thread'=>$thread,
             'replies' =>$thread->replies()->paginate(20)
@@ -99,7 +97,7 @@ class ThreadsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     *re
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
