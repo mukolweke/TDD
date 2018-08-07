@@ -8,7 +8,7 @@
                 <div class="card" style="padding: 10px;margin-bottom: 20px;">
 
                     <div class="card-header">
-                        <a href="#">{{$thread->creator->name}}</a> posted:
+                        <a href="/profiles/{{$thread->creator->name}}">{{$thread->creator->name}}</a> posted:
                         {{ $thread->title }}
                     </div>
 
@@ -17,6 +17,7 @@
                     </div>
 
                 </div>
+
                 @foreach($replies as $reply)
                     @include('threads.reply')
                 @endforeach
