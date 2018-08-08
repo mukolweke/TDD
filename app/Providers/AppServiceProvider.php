@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
 //        \View::share('channels',\App\Channel::all());
 
         \View::composer('*', function ($view){
-            $channel = Cache::rememberForever('cahnnels', function (){
+            $channel = Cache::rememberForever('channels', function (){
                return Channel::all();
             });
 
@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }
