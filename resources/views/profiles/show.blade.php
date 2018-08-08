@@ -4,23 +4,27 @@
 @section('content')
 
     <div class="container">
-        <div class="page-header">
-            <h1>
 
-                {{$profileUser->name}}
-                <small>Since {{$profileUser->created_at->diffForHumans()}}</small>
+        <div class="grid-x">
+            <div class="medium-offset-3 medium-8 columns">
 
-            </h1>
-        </div>
+                <div class="page-header">
+                    <h1>
+
+                        {{$profileUser->name}}
+                        <small>Since {{$profileUser->created_at->diffForHumans()}}</small>
+
+                    </h1>
+                </div>
 
 
-        @foreach($threads as $thread)
+                @foreach($threads as $thread)
 
-            <div class="card" style="padding: 10px;margin-bottom: 20px;">
+                    <div class="card" style="padding: 10px;margin-bottom: 20px;">
 
-                <div class="card-header">
+                        <div class="card-header">
 
-                    <div class="level">
+                            <div class="level">
 
                         <span class="flex">
 
@@ -29,26 +33,28 @@
 
                         </span>
 
-                        <span>
+                                <span>
 
                             {{ $thread->created_at->diffForHumans() }}
 
                         </span>
 
+                            </div>
+
+                        </div>
+
+                        <div class="card-section">
+                            {{$thread->body}}
+                        </div>
+
                     </div>
 
-                </div>
+                @endforeach
 
-                <div class="card-section">
-                    {{$thread->body}}
-                </div>
+                {{ $threads->links() }}
 
             </div>
-
-        @endforeach
-
-        {{ $threads->links() }}
-
+        </div>
     </div>
 
 @endsection

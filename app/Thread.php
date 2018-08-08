@@ -23,6 +23,10 @@ class Thread extends Model
 //        {
 //            $builder->withCount('creator');
 //        });
+
+        static::deleting(function (Thread $thread){
+            $thread->replies()->delete();
+        });
     }
 
     public function path()
