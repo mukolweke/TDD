@@ -12,6 +12,8 @@ trait RecordsActivity
 {
     public static function bootRecordsActivity()
     {
+        if(auth()->guest()) return;
+
         // find event, listen for each one, and record the activity
        foreach(static::getActivitiesToRecord() as $event) {
            static::$event(function ($model) use ($event) {
