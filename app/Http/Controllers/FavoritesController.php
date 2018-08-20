@@ -18,5 +18,7 @@ class FavoritesController extends Controller
     {
         // a reply can be favorited; relationship favourite
         $reply->favourite();
+
+        return back();
     }
 }

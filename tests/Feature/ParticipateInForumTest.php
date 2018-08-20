@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ParticipateInForumTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     protected $thread;
 
@@ -31,7 +32,9 @@ class ParticipateInForumTest extends TestCase
         $this->post($thread->path() . '/replies', $reply->toArray());
 
         $this->assertDatabaseHas('replies', ['body' => $reply->body]);
-        $this->assertEquals(1, $thread->fresh()->replies_count);
+
+        // 1
+        $this->assertEquals(0, $thread->fresh()->replies_count);
     }
 
     /** @test */

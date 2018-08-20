@@ -28,36 +28,27 @@ class Thread extends Model
             $thread->replies()->delete();
         });
     }
-
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->id}";
+        return "/threads/{$this->channel->slug }/{$this->id}";
     }
-
-
     public function replies()
     {
         return $this->hasMany(Reply::class);
     }
-
-
-    public function creator()
+    function creator()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
-
-
-    public function addReply($reply)
-    {
-        $this->replies()->create($reply);
-    }
-
     public function channel()
     {
         return $this->belongsTo(Channel::class);
     }
-
-    public function scopeFilter($query, $filters)
+    function addReply($reply)
+    {
+        $this->replies()->create($reply);
+    }
+    function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
     }

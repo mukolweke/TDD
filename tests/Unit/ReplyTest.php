@@ -13,6 +13,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ReplyTest extends TestCase
 {
 
+    use DatabaseMigrations;
+
     protected $thread;
 
     public function setUp()
