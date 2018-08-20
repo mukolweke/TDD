@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
        return $this->hasMany(Thread::class)->latest();
     }
+
+    public function activity(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
 }
