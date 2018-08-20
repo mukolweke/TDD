@@ -12,46 +12,22 @@
                     <h1>
 
                         {{$profileUser->name}}
-                        <small>Since {{$profileUser->created_at->diffForHumans()}}</small>
 
                     </h1>
                 </div>
 
 
-                @foreach($threads as $thread)
+                @foreach($activities as $date => $activity)
+                    <h3 class="page-header">{{$date}}</h3>
+                    @foreach ($activity as $record)
 
-                    <div class="card" style="padding: 10px;margin-bottom: 20px;">
+                        @include("profiles.activities.$record->type", ['activity'=>$record])
 
-                        <div class="card-header">
-
-                            <div class="level">
-
-                        <span class="flex">
-
-                            <a href="#">{{$thread->creator->name}}</a> posted:
-                            {{ $thread->title }}
-
-                        </span>
-
-                                <span>
-
-                            {{ $thread->created_at->diffForHumans() }}
-
-                        </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="card-section">
-                            {{$thread->body}}
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 @endforeach
 
-                {{ $threads->links() }}
+                {{--{{ $threads->links() }}--}}
 
             </div>
         </div>

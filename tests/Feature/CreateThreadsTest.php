@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateThreadsTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     protected $oldExceptionHandler;
 
@@ -20,6 +20,7 @@ class CreateThreadsTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
         $this->disableExceptionHandling();
     }
 
@@ -101,30 +102,28 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    public function guest_cannot_delete_a_thread()
+    public function unauthorized_users_nay_not_delete_threads()
     {
         $this->withExceptionHandling();
 
         $thread = create('App\Thread');
 
-        $response = $this->delete($thread->path());
+        $this->delete($thread->path())->assertRedirect('/login');
 
-        $response->assertRedirect('/login');
-    }
+        $this->signIn();
 
-    /** @test */
-    function thread_deleted_only_by_the_owner()
-    {
+        $this->delete($thread->path())->assertStatus(403);
 
     }
 
+
     /** @test */
-    public function a_thread_can_be_deleted()
+    public function authorized_users_can_delete_threads()
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
-        $reply = create('App\Reply',['id'=> $thread->id]);
+        $thread = create('App\Thread',['user_id'=>auth()->id()]);
+        $reply = create('App\Reply',['thread_id'=> $thread->id]);
 
         $response = $this->json('DELETE', $thread->path());
 

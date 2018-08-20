@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ThreadTest extends TestCase
 {
 
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     public function setUp()
     {
