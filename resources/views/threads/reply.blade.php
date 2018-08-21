@@ -10,14 +10,10 @@
                 .
                 <div>
 
-                    <favorite :reply="{{$reply}}"></favorite>
+                    @if(Auth::check())
+                        <favorite :reply="{{$reply}}"></favorite>
+                    @endif
 
-                    {{--<form method="post" action="/replies/{{$reply->id}}/favourites">--}}
-
-                        {{--{{csrf_field()}}--}}
-
-
-                    {{--</form>--}}
                 </div>
             </div>
         </div>

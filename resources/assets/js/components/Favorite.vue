@@ -1,40 +1,40 @@
 <script>
     export default {
-        props:['reply'],
+        props: ['reply'],
 
-        data(){
-            return{
-                count:this.reply.favoritesCount,
-                active:this.reply.isFavorited,
+        data() {
+            return {
+                count: this.reply.favoritesCount,
+                active: this.reply.isFavorited,
             }
         },
 
-        computed:{
+        computed: {
 
-            classes(){
-                return ['btn', this.active ? 'btn-primary':'btn-default']
+            classes() {
+                return ['btn', this.active ? 'btn-primary' : 'btn-default']
             },
 
-            endpoint(){
+            endpoint() {
 
-                return '/replies/'+this.reply.id+'/favorites';
+                return '/replies/' + this.reply.id + '/favorites';
             }
         },
 
-        methods:{
-            toggle(){
+        methods: {
+            toggle() {
                 return this.active ? this.destroy() : this.create();
             },
 
-            create(){
-                axios.post(this.endpoint());
+            create() {
+                axios.post(this.endpoint);
 
-                this.active = false;
-                this.count--;
+                this.active = true;
+                this.count++;
             },
 
-            destroy(){
-                axios.delete(this.endpoint());
+            destroy() {
+                axios.delete(this.endpoint);
 
                 this.active = false;
                 this.count--;
