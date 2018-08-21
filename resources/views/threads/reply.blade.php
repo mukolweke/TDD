@@ -1,5 +1,5 @@
-<div class="card" style="padding: 10px;margin-bottom: 20px;">
-    <div class="card-header">
+<div id="reply-{{$reply->id}}" class="panel panel-default">
+    <div class="panel-heading">
         <div class="level">
             <h5 class="flex">
                 <a href="/profiles/{{$reply->owner->name}}">{{$reply->owner->name}}</a>
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="card-section">
+    <div class="panel-body">
         {{$reply->body}}
     </div>
 </div>
