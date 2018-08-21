@@ -20,12 +20,17 @@ trait RecordsActivity
                $model->recordActivity($event);
            });
        };
+
+       // listen for when is deleteing a record that thread is associated with, then delete activity
+        static::deleting(function($model){
+            $model->activity()->delete();
+        });
     }
 
     protected static function getActivitiesToRecord()
     {
         return ['created'];
-//        return ['created', 'deleted'];
+        // return ['created', 'deleted'];
     }
 
     /**
