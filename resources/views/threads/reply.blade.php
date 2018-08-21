@@ -28,7 +28,7 @@
                     <textarea v-model="body" class="form-control"></textarea>
                 </div>
 
-                <button class="btn btn-xs btn-primary" @click="update">Update</button>
+                <button class="btn btn-xs btn-primary mr-1" @click="update">Update</button>
                 <button class="btn btn-xs btn-link" @click="editing=false">Cancel</button>
             </div>
 
@@ -39,13 +39,8 @@
             <div class="card-footer level">
 
                 <button class="btn btn-xs mr-1" @click="editing=true">EDIT</button>
+                <button class="btn btn-xs btn-danger mr-1" @click="destroy">DELETE</button>
 
-                <form action="/replies/{{$reply->id}}" method="POST">
-                    {{csrf_field()}}
-                    {{method_field("DELETE")}}
-
-                    <button class="btn btn-danger btn-xs">DELETE</button>
-                </form>
             </div>
         @endcan
     </div>
