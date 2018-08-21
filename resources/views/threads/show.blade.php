@@ -21,7 +21,7 @@
 
                                     {{method_field('DELETE ')}}
 
-                                    <button type="submit" class="button button-link">DELETE THREAD</button>
+                                    <button type="submit" class="btn btn-danger btn-xs">DELETE THREAD</button>
                                 </form>
                             @endcan
                         </div>
@@ -48,7 +48,7 @@
 
                         </div>
 
-                        <button type="submit" class="btn btn-default">Post</button>
+                        <button type="submit" class="btn btn-primary">Post</button>
                     </form>
 
                 @else
