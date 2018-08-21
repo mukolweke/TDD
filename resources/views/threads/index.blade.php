@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-8">
                 @forelse($threads as $thread)
 
-                    <div class="card" style="padding: 10px;">
-                        <div class="card-header">
+                    <div class="panel panel-default" style="padding: 10px;">
+                        <div class="panel-heading">
                             <div class="level">
                                 <h4 class="flex">
                                     <a href="{{$thread->path()}}">
@@ -23,7 +23,7 @@
                             </div>
                         </div>
 
-                        <div class="card-section">
+                        <div class="panel-body">
 
                             <div class="body">
                                 {{$thread->body}}
@@ -38,3 +38,5 @@
         </div>
     </div>
 @endsection
+
+

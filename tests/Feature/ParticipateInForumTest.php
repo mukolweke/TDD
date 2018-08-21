@@ -49,4 +49,52 @@ class ParticipateInForumTest extends TestCase
         $this->post($thread->path() . '/replies', $reply->toArray())
             ->assertSessionHasErrors('body');
     }
+
+    /** @test */
+    public function unauthorized_users_cannot_delete_replies()
+    {
+        $reply = create('App\Reply');
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+    }
+
+    /** @test */
+    public function authorized_users_can_delete_replies()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply',['user_id'=> auth()->id()]);
+
+        $this->delete("/replies/{$reply->id}")->assertStatus(302);
+
+        $this->assertDatabaseMissing('replies', ['id'=>$reply->id]);
+
+    }
+
+    /** @test */
+    public function authorized_users_can_update_replies()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply', ['user_id'=>auth()->id()]);
+
+        $updatedReply = 'You have been busted';
+
+        $this->patch("/replies/{$reply->id}", ['body'=> $updatedReply]);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body'=> $updatedReply]);
+    }
+
+    /** @test */
+    public function unauthorized_users_can_update_replies()
+    {
+        $reply = create('App\Reply');
+
+        $updatedReply = 'You have been busted';
+
+        $this->patch("/replies/{$reply->id}", ['body'=> $updatedReply])
+            ->assertRedirect('login');
+    }
 }

@@ -11,6 +11,13 @@ namespace App;
 
 trait Favouritable
 {
+    protected static function bootFavouritable()
+    {
+        static::deleting(function ($model) {
+            $model->favourites->each->delete();
+        });
+    }
+
     public function favourites()
     {
         return $this->morphMany('App\Favorite', 'favorited');
@@ -31,11 +38,20 @@ trait Favouritable
         return !! $this->favourites()->where('user_id', auth()->id())->count();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFavouritesCountAttribute()
+    public function getFavoritesCountAttribute()
     {
         return $this->favourites->count();
+    }
+
+    public function unfavorite()
+    {
+        $attributes = ['user_id' => auth()->id()];
+
+        $this->favourites()->where($attributes)->get()->each->delete();
+    }
+
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
     }
 }
