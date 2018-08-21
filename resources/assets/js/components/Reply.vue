@@ -1,4 +1,6 @@
 <script>
+    import favorite from './Favorite'
+
     export default {
         props:['attributes'],
 
@@ -7,6 +9,10 @@
                 editing: false,
                 body: this.attributes.body,
             }
+        },
+
+        components:{
+            favorite: favorite
         },
 
         methods:{

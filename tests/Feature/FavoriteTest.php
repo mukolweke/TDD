@@ -20,10 +20,9 @@ class FavoriteTest extends TestCase
     {
         $this->withExceptionHandling()
             ->post('replies/1/favorites')
-//            ->assertRedirect('/login');
-            ->assertStatus(404);
+            ->assertRedirect('/login');
+//            ->assertStatus(404);
     }
-
 
     /** @test */
     public function an_authenticated_user_can_favorite_any_reply()
@@ -34,9 +33,22 @@ class FavoriteTest extends TestCase
 
         $this->post('replies/' . $reply->id . '/favorites');
 
-        $this->assertCount(0, $reply->favorites);
+        $this->assertCount(1, $reply->favourites);
     }
 
+    /** @test */
+    public function an_authenticated_user_can_unfavorite_a_reply()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply');
+
+        $reply->favourite();
+
+        $this->delete('replies/' . $reply->id . '/favorites');
+
+        $this->assertCount(0, $reply->favourites);
+    }
 
     /** @test */
     public function an_authenticated_user_may_favorite_only_once()
@@ -45,16 +57,14 @@ class FavoriteTest extends TestCase
 
         $reply = create('App\Reply');
 
-//        try {
-//
-//        } catch (\Exception $e) {
-//            $this->fail('Did not expect to insert the same record set twice.');
-//        }
+        try {
+            $this->post('replies/' . $reply->id . '/favorites');
+            $this->post('replies/' . $reply->id . '/favorites');
+        } catch (\Exception $e) {
+            $this->fail('Did not expect to insert the same record set twice.');
+        }
 
-        $this->post('replies/' . $reply->id . '/favorites');
-        $this->post('replies/' . $reply->id . '/favorites');
-
-        $this->assertCount(0, $reply->favorites);
+        $this->assertCount(1, $reply->favourites);
 
     }
 }

@@ -9,15 +9,15 @@
                 </h5>
                 .
                 <div>
-                    <form method="post" action="/replies/{{$reply->id}}/favourites">
 
-                        {{csrf_field()}}
+                    <favorite :reply="{{$reply}}"></favorite>
 
-                        <button type="submit" class="btn btn-default" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                            {{$reply->favourites_count}}{{str_plural(' like', $reply->favourites_count)}}
-                        </button>
+                    {{--<form method="post" action="/replies/{{$reply->id}}/favourites">--}}
 
-                    </form>
+                        {{--{{csrf_field()}}--}}
+
+
+                    {{--</form>--}}
                 </div>
             </div>
         </div>
