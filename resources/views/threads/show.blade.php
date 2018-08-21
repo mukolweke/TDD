@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="card-section">
+                    <div class="card-section" style="padding: 20px;">
                         {{$thread->body}}
                     </div>
 

@@ -48,4 +48,11 @@ class RepliesController extends Controller
     }
 
 
+    public function update(Reply $reply)
+    {
+        $reply->update(request(['body']));
+
+    }
+
+
 }
