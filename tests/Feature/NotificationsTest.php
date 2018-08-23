@@ -20,7 +20,6 @@ class NotificationsTest extends TestCase
     /** @test */
     function notification_received()
     {
-        $this->signIn();
 
         $thread = create('App\Thread')->subscribe(auth()->id());
 
