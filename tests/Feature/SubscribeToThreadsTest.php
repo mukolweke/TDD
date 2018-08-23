@@ -10,28 +10,31 @@ class SubscribeToThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
-
     /** @test */
-    public function a_user_can_subcribe_to_threads()
+    public function a_user_can_subscribe_to_threads()
     {
         $this->signIn();
 
+        // Given we have a thread...
         $thread = create('App\Thread');
 
+        // And the user subscribes to the thread...
         $this->post($thread->path() . '/subscriptions');
 
+        $this->assertCount(1, $thread->fresh()->subscriptions);
+    }
 
-        $thread->addReply([
-            'user_id' => auth()->id(),
-            'body' => 'Some reply here'
-        ]);
+    /** @test */
+    public function a_user_can_unsubscribe_from_threads()
+    {
+        $this->signIn();
 
-        $this->assertCount(1, auth()->user()->notifications());
+        $thread = create('App\Thread', ['user_id'=>auth()->id()]);
 
-        /*
-         each time a reply, update is done to the thread a notification
-        should be preapred for the user*/
+        $thread->subscribe(auth()->id());
 
+        $this->delete($thread->path() . '/subscriptions');
 
+        $this->assertCount(0, $thread->subscriptions);
     }
 }
