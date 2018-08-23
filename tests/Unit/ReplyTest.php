@@ -43,21 +43,4 @@ class ReplyTest extends TestCase
             ->assertSee($this->thread->title);
     }
 
-
-    /** @test  **/
-    public function a_user_can_read_replies_that_are_associated_with_a_thread(){
-
-
-        // thread has replies
-        $reply = factory('App\Reply')
-            ->create(['thread_id'=> $this->thread->id]);
-
-
-
-        // when we visit the thread page then we  should see replies
-        $this->get($this->thread->path())
-            ->assertSee($reply->body);
-
-
-    }
 }
