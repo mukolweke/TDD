@@ -23,6 +23,31 @@ try {
 window.axios = require('axios');
 window.Vue = require('vue');
 
+window.Vue.prototype.authorize = function(handler){
+    // additional admin priviledges
+    let user = window.App.user;
+
+    return user ? handler(user) : false;
+}
+
+// window.Vue = require('vue');
+//
+// Vue.use(InstantSearch);
+//
+// let authorizations = require('./authorizations');
+//
+// Vue.prototype.authorize = function (...params) {
+//     if (! window.App.signedIn) return false;
+//
+//     if (typeof params[0] === 'string') {
+//         return authorizations[params[0]](params[1]);
+//     }
+//
+//     return params[0](window.App.user);
+// };
+//
+// Vue.prototype.signedIn = window.App.signedIn;
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

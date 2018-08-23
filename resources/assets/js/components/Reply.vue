@@ -18,6 +18,10 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
+                        <textarea class="form-control"
+                                  id="body"
+                                  v-model="body"
+                                  rows="5"></textarea>
                         <!--<wysiwyg v-model="body"></wysiwyg>-->
                     </div>
 
@@ -29,7 +33,7 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="panel-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+        <div class="panel-footer level" v-if="canUpdate">
             <div v-if="authorize('owns', reply)">
                 <button class="btn btn-xs mr-1" @click="editing = true" v-if="! editing">Edit</button>
                 <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
@@ -63,11 +67,19 @@
         computed: {
             ago() {
                 return moment(this.reply.created_at).fromNow() + '...';
+            },
+
+            signedIn() {
+                return window.App.signedIn;
+            },
+
+            canUpdate() {
+                return this.authorize(user => this.reply.user_id == user.id)
             }
         },
 
         created() {
-            window.events.$on('best-reply-selected', id => {
+            this.$on('best-reply-selected', id => {
                 this.isBest = (id === this.id);
             });
         },
@@ -96,7 +108,7 @@
             markBestReply() {
                 axios.post('/replies/' + this.id + '/best');
 
-                window.events.$emit('best-reply-selected', this.id);
+                this.$emit('best-reply-selected', this.id);
             }
         }
     }

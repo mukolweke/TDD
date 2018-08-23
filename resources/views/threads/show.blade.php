@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <thread-view :initital-replies-count="{{$thread->replies_count}}" inline-template>
+    <thread-view :initial-replies-count="{{$thread->replies_count}}" inline-template>
 
         <div class="container">
             <div class="row">
