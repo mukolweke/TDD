@@ -47889,7 +47889,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['data'],
 
-    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a },
+    components: { ReplyView: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply___default.a },
 
     data: function data() {
         return {
@@ -47899,6 +47899,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
+        add: function add(reply) {
+            this.items.push(reply);
+
+            this.$emit('added');
+
+            flash('Reply was added');
+        },
         remove: function remove(index) {
             this.items.splice(index, 1);
 
@@ -48220,12 +48227,12 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "panel",
-      class: _vm.isBest ? "panel-success" : "panel-default",
+      staticClass: "card",
+      staticStyle: { "margin-bottom": "30px", padding: "15px" },
       attrs: { id: "reply-" + _vm.id }
     },
     [
-      _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "card-header" }, [
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
             _c("a", {
@@ -48242,96 +48249,90 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "panel-body" }, [
-        _vm.editing
-          ? _c("div", [
-              _c("form", { on: { submit: _vm.update } }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.body,
-                        expression: "body"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "body", rows: "5" },
-                    domProps: { value: _vm.body },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.body = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-xs btn-primary" }, [
-                  _vm._v("Update")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-link",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editing = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                )
-              ])
-            ])
-          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
-      ]),
-      _vm._v(" "),
-      _vm.canUpdate
-        ? _c("div", { staticClass: "panel-footer level" }, [
-            _vm.authorize("owns", _vm.reply)
-              ? _c("div", [
-                  !_vm.editing
-                    ? _c(
-                        "button",
+      _c(
+        "div",
+        {
+          staticClass: "card-section",
+          staticStyle: { "margin-top": "10px", "margin-bottom": "10px" }
+        },
+        [
+          _vm.editing
+            ? _c("div", [
+                _c("form", { on: { submit: _vm.update } }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("textarea", {
+                      directives: [
                         {
-                          staticClass: "btn btn-xs mr-1",
-                          on: {
-                            click: function($event) {
-                              _vm.editing = true
-                            }
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.body,
+                          expression: "body"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "body", rows: "5" },
+                      domProps: { value: _vm.body },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
                           }
-                        },
-                        [_vm._v("Edit")]
-                      )
-                    : _vm._e(),
+                          _vm.body = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("button", { staticClass: "btn btn-xs btn-primary" }, [
+                    _vm._v("Update")
+                  ]),
                   _vm._v(" "),
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-xs btn-danger mr-1",
-                      on: { click: _vm.destroy }
+                      staticClass: "btn btn-xs btn-link",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.editing = false
+                        }
+                      }
                     },
-                    [_vm._v("Delete")]
+                    [_vm._v("Cancel")]
                   )
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.authorize("owns", _vm.reply.thread)
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-default ml-a",
-                    on: { click: _vm.markBestReply }
-                  },
-                  [_vm._v("\n            Best Reply?\n        ")]
-                )
-              : _vm._e()
+              ])
+            : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
+        ]
+      ),
+      _vm._v(" "),
+      _vm.canUpdate
+        ? _c("div", { staticClass: "card-footer level" }, [
+            _c("div", [
+              !_vm.editing
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-xs mr-1",
+                      on: {
+                        click: function($event) {
+                          _vm.editing = true
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-xs btn-danger mr-1",
+                  on: { click: _vm.destroy }
+                },
+                [_vm._v("Delete")]
+              )
+            ])
           ])
         : _vm._e()
     ]
@@ -48405,23 +48406,28 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.items, function(reply, index) {
-      return _c(
-        "div",
-        { key: reply.id },
-        [
-          _c("reply", {
-            attrs: { reply: reply },
-            on: {
-              deleted: function($event) {
-                _vm.remove(index)
+    [
+      _vm._l(_vm.items, function(reply, index) {
+        return _c(
+          "div",
+          { key: reply.id },
+          [
+            _c("reply-view", {
+              attrs: { reply: reply },
+              on: {
+                deleted: function($event) {
+                  _vm.remove(index)
+                }
               }
-            }
-          })
-        ],
-        1
-      )
-    })
+            })
+          ],
+          1
+        )
+      }),
+      _vm._v(" "),
+      _c("new-reply", { on: { created: _vm.add } })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -48522,41 +48528,53 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "form-group" }, [
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.body,
-            expression: "body"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          name: "body",
-          id: "body",
-          placeholder: "Have something to say...",
-          rows: "5",
-          required: ""
-        },
-        domProps: { value: _vm.body },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.body = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("button", {
-      staticClass: "btn btn-default",
-      attrs: { type: "submit" },
-      on: { click: _vm.addReply }
-    })
+    _vm.signedIn
+      ? _c("div", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.body,
+                  expression: "body"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                name: "body",
+                id: "body",
+                placeholder: "Have something to say...",
+                rows: "5",
+                required: ""
+              },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.body = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default",
+              attrs: { type: "submit" },
+              on: { click: _vm.addReply }
+            },
+            [_vm._v("Post")]
+          )
+        ])
+      : _c("p", { staticClass: "text-center" }, [
+          _vm._v("Please"),
+          _c("a", { attrs: { href: "/login" } }, [_vm._v(" sign in ")]),
+          _vm._v(" to participate in this\n        discussion")
+        ])
   ])
 }
 var staticRenderFns = []
@@ -48592,6 +48610,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 // import 'jquery.caret';
 // import 'at.js';
@@ -48604,19 +48624,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
-        $('#body').atwho({
-            at: "@",
-            delay: 750,
-            callbacks: {
-                remoteFilter: function remoteFilter(query, callback) {
-                    $.getJSON("/api/users", { name: query }, function (usernames) {
-                        callback(usernames);
-                    });
-                }
-            }
-        });
+        // $('#body').atwho({
+        //     at: "@",
+        //     delay: 750,
+        //     callbacks: {
+        //         remoteFilter: function (query, callback) {
+        //             $.getJSON("/api/users", {name: query}, function (usernames) {
+        //                 callback(usernames)
+        //             });
+        //         }
+        //     }
+        // });
     },
 
+
+    computed: {
+        signedIn: function signedIn() {
+            return window.App.signedIn;
+        }
+    },
 
     methods: {
         addReply: function addReply() {

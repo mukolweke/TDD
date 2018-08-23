@@ -23,10 +23,14 @@ class RepliesController extends Controller
             'body'=>'required'
         ]);
         // add reply
-        $thread-> addReply([
+        $reply = $thread-> addReply([
             'body'=> request('body'),
             'user_id' => auth()->id()
         ]);
+
+        if(request()->expectsJson()){
+            return $reply->load('owner');
+        }
         // redirect
         return redirect($thread->path())
             ->with('flash', 'Your reply has been posted');

@@ -1,6 +1,6 @@
 <template>
-    <div :id="'reply-'+id" class="panel" :class="isBest ? 'panel-success': 'panel-default'">
-        <div class="panel-heading">
+    <div :id="'reply-'+id" class="card" style="margin-bottom:30px;padding:15px;">
+        <div class="card-header">
             <div class="level">
                 <h5 class="flex">
                     <a :href="'/profiles/' + reply.owner.name"
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="panel-body">
+        <div class="card-section" style="margin-top:10px;margin-bottom:10px;">
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
@@ -33,15 +33,15 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="panel-footer level" v-if="canUpdate">
-            <div v-if="authorize('owns', reply)">
+        <div class="card-footer level" v-if="canUpdate">
+            <div>
                 <button class="btn btn-xs mr-1" @click="editing = true" v-if="! editing">Edit</button>
                 <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
             </div>
 
-            <button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">
-                Best Reply?
-            </button>
+            <!--<button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">-->
+                <!--Best Reply?-->
+            <!--</button>-->
         </div>
     </div>
 </template>

@@ -1,23 +1,21 @@
 <template>
     <div>
         <div v-for="(reply, index) in items" :key="reply.id">
-            <reply :reply="reply" @deleted="remove(index)"></reply>
+            <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
         </div>
 
-
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
 <script>
-    import Reply from './Reply'
+    import ReplyView from './Reply'
     import NewReply from './NewReply';
 
     export default {
         props: ['data'],
 
-        components: { Reply },
-
-
+        components: { ReplyView, NewReply },
 
         data() {
             return{
@@ -26,6 +24,14 @@
         },
 
         methods: {
+            add(reply){
+                this.items.push(reply);
+
+                this.$emit('added');
+
+                flash('Reply was added')
+            },
+
             remove(index){
                 this.items.splice(index, 1);
 
