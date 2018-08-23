@@ -41691,7 +41691,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(143);
-module.exports = __webpack_require__(197);
+module.exports = __webpack_require__(200);
 
 
 /***/ }),
@@ -64022,6 +64022,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('paginator', __webpack_req
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('thread-view', __webpack_require__(192));
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('user-notifications', __webpack_require__(197));
+
 /***/ }),
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -65658,6 +65660,109 @@ if (false) {
 
 /***/ }),
 /* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(198)
+/* template */
+var __vue_template__ = __webpack_require__(199)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/UserNotifications.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c0045994", Component.options)
+  } else {
+    hotAPI.reload("data-v-c0045994", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return { notifications: false };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/profiles/' + window.App.user.name + '/notifications').then(function (response) {
+            return _this.notifications = response.data;
+        });
+    },
+
+
+    methods: {
+        markAsRead: function markAsRead(notification) {
+            axios.delete('/profiles/' + window.App.user.name + '/notifications/' + notification.id);
+        }
+    }
+});
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function(){},staticRenderFns:[]}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c0045994", module.exports)
+  }
+}
+
+/***/ }),
+/* 200 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
