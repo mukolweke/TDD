@@ -24,8 +24,6 @@ class Spam
     ];
 
     /**
-     * Detect spam.
-     *
      * @param  string $body
      * @return bool
      */

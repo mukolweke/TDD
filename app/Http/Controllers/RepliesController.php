@@ -20,6 +20,12 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
+    /**
+     * @param $channelId
+     * @param Thread $thread
+     * @param Spam $spam
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
+     */
     public function store($channelId, Thread $thread, Spam $spam)
     {
         $this->validate(request(), [
