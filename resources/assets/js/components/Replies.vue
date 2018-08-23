@@ -1,57 +1,55 @@
 <template>
     <div>
         <div v-for="(reply, index) in items" :key="reply.id">
-            <reply :reply="reply" @deleted="remove(index)"></reply>
+            <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
         </div>
 
-        <!--<paginator :dataSet="dataSet" @changed="fetch"></paginator>-->
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
 
-        <p v-if="$parent.locked">
-            This thread has been locked. No more replies are allowed.
-        </p>
-
-        <new-reply @created="add" v-else></new-reply>
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
 <script>
-    import Reply from './Reply'
+    import ReplyView from './Reply'
     import NewReply from './NewReply';
-    import collection from '../mixins/collections';
+    import collection from '../mixins/collections'
 
     export default {
-        components: { Reply, NewReply },
 
-        mixins: [collection],
+        components: { ReplyView, NewReply },
+
+        mixins:[collection],
 
         data() {
-            return { dataSet: false };
+            return{
+                dataSet: false,
+            }
         },
 
-        created() {
+        created(){
             this.fetch();
         },
 
         methods: {
-            fetch(page) {
+            fetch(page){
                 axios.get(this.url(page)).then(this.refresh);
             },
 
-            url(page) {
-                if (! page) {
+            url(page){
+                if(!page)
+                {
                     let query = location.search.match(/page=(\d+)/);
 
-                    page = query ? query[1] : 1;
+                    page = query ? query[1]: 1;
                 }
-
-                return `${location.pathname}/replies?page=${page}`;
+                return ( `${location.pathname}/replies?page=${page}`);
             },
 
-            refresh({data}) {
+            refresh(data){
                 this.dataSet = data;
-                this.items = data.data;
 
-                window.scrollTo(0, 0);
+                this.items = data.data;
             }
         }
     }

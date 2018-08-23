@@ -2,13 +2,13 @@
     import Replies from '../components/Replies'
 
     export default {
-        props:[' '],
+        props:['initialRepliesCount'],
 
         components: { Replies },
 
         data(){
             return{
-                repliesCount: 10
+                repliesCount: this.initialRepliesCount,
             }
         }
     }

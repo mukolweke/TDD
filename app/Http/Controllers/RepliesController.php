@@ -11,22 +11,28 @@ class RepliesController extends Controller
 
     public function __construct()
     {
-
-        $this->middleware('auth');
-
+        $this->middleware('auth', ['except' => 'index']);
     }
 
+    public function index($channel, Thread $thread)
+    {
+        return $thread->replies()->paginate(20);
+    }
 
-    public function store($channelId, Thread $thread){
-
-        $this->validate(request(),[
-            'body'=>'required'
+    public function store($channelId, Thread $thread)
+    {
+        $this->validate(request(), [
+            'body' => 'required'
         ]);
         // add reply
-        $thread-> addReply([
-            'body'=> request('body'),
+        $reply = $thread->addReply([
+            'body' => request('body'),
             'user_id' => auth()->id()
         ]);
+
+        if (request()->expectsJson()) {
+            return $reply->load('owner');
+        }
         // redirect
         return redirect($thread->path())
             ->with('flash', 'Your reply has been posted');
@@ -44,8 +50,8 @@ class RepliesController extends Controller
 
         $reply->delete();
 
-        if(request()->expectsJson()){
-            return response(['status'=>'Reply deleted']);
+        if (request()->expectsJson()) {
+            return response(['status' => 'Reply deleted']);
         }
 
         return back();
