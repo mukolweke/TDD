@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilter;
+use App\Inspections\Spam;
 use App\Thread;
 use App\User;
 use Carbon\Carbon;
@@ -60,6 +61,8 @@ class ThreadsController extends Controller
             'channel_id'=>'required|exists:channels,id'
         ]);
 
+        $spam->detect(request('body'));
+
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
@@ -79,7 +82,7 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function show($channelId, Thread $thread)
+    public function show($channelId, Thread $thread, Spam $spam)
     {
 
         // record user visited this page...timestamp
