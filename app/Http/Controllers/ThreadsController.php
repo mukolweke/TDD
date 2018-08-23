@@ -6,6 +6,7 @@ use App\Channel;
 use App\Filters\ThreadFilter;
 use App\Thread;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -76,9 +77,22 @@ class ThreadsController extends Controller
      * @param $channelId
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show($channelId, Thread $thread)
     {
+
+        // record user visited this page...timestamp
+        if (auth()->check()) {
+
+            auth()->user()->read($thread);
+        }
+
+//        $trending->push($thread);
+
+//        $thread->increment('visits');
+
+
         return view('threads.show', compact('thread'));
     }
 

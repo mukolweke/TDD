@@ -103,5 +103,18 @@ class Thread extends Model
             ->exists();
     }
 
+    /**
+     * @param $user
+     * @return bool
+     * @throws \Exception
+     */
+    public function hasUpdatesFor($user)
+    {
+//        look in cache for a proper key
+        $key = $user->visitedThreadCacheKey($this);
+
+        // compare the carbon instance with the thread->updated_at
+        return $this->updated_at > cache($key);
+    }
 
 }
