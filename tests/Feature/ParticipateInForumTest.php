@@ -99,4 +99,20 @@ class ParticipateInForumTest extends TestCase
         $this->patch("/replies/{$reply->id}", ['body'=> $updatedReply])
             ->assertRedirect('login');
     }
+    /** @test */
+    public function replies_that_contain_spam_may_not_be_createed()
+    {
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply', [
+            'body' => 'Yahoo Customer Support'
+        ]);
+
+        $this->json('post', $thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
+
+    }
 }
