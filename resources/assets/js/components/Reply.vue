@@ -66,7 +66,7 @@
 
         computed: {
             ago() {
-                return moment(this.reply.created_at).fromNow() + '...';
+                return moment(this.reply.created_at).fromNow() + ' ...';
             },
 
             signedIn() {

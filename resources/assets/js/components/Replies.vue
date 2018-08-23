@@ -4,6 +4,8 @@
             <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
         </div>
 
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
+
         <new-reply @created="add"></new-reply>
     </div>
 </template>
@@ -11,33 +13,43 @@
 <script>
     import ReplyView from './Reply'
     import NewReply from './NewReply';
+    import collection from '../mixins/collections'
 
     export default {
-        props: ['data'],
 
         components: { ReplyView, NewReply },
 
+        mixins:[collection],
+
         data() {
             return{
-                items: this.data
+                dataSet: false,
             }
         },
 
+        created(){
+            this.fetch();
+        },
+
         methods: {
-            add(reply){
-                this.items.push(reply);
-
-                this.$emit('added');
-
-                flash('Reply was added')
+            fetch(page){
+                axios.get(this.url(page)).then(this.refresh);
             },
 
-            remove(index){
-                this.items.splice(index, 1);
+            url(page){
+                if(!page)
+                {
+                    let query = location.search.match(/page=(\d+)/);
 
-                this.$emit('removed');
+                    page = query ? query[1]: 1;
+                }
+                return ( `${location.pathname}/replies?page=${page}`);
+            },
 
-                flash('Reply was removed')
+            refresh(data){
+                this.dataSet = data;
+
+                this.items = data.data;
             }
         }
     }
