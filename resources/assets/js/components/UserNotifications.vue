@@ -1,6 +1,6 @@
 <template>
     <li class="dropdown nav-item"v-if="notifications.length">
-        <a href="#" class="nav-link" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-bell"></i>
         </a>
 

@@ -100,7 +100,7 @@ class ParticipateInForumTest extends TestCase
             ->assertRedirect('login');
     }
     /** @test */
-    public function replies_that_contain_spam_may_not_be_createed()
+    public function replies_that_contain_spam_may_not_be_created()
     {
         $this->withExceptionHandling();
 

@@ -64024,6 +64024,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('thread-view', __webpack_r
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('user-notifications', __webpack_require__(197));
 
+xxxxx;
+
 /***/ }),
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -64161,6 +64163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             body: '',
+            level: 'success',
             show: false
         };
     },
@@ -64171,14 +64174,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.flash(this.message);
         }
 
-        window.events.$on('flash', function (message) {
-            return _this.flash(message);
+        window.events.$on('flash', function (data) {
+            return _this.flash(data);
         });
     },
 
     methods: {
         flash: function flash(message) {
-            this.body = message;
+            this.body = data.message;
+
+            this.level = data.level;
+
             this.show = true;
 
             this.hide();
@@ -64207,10 +64213,12 @@ var render = function() {
       directives: [
         { name: "show", rawName: "v-show", value: _vm.show, expression: "show" }
       ],
-      staticClass: "alert alert-success alert-flash",
-      attrs: { role: "alert" }
+      staticClass: "alert alert-flash",
+      class: "alert-" + _vm.level,
+      attrs: { role: "alert" },
+      domProps: { textContent: _vm._s(_vm.body) }
     },
-    [_c("strong", [_vm._v("Success")]), _vm._v(" " + _vm._s(_vm.body) + "\n\n")]
+    [_vm._v("\n\n    " + _vm._s(_vm.body) + "\n\n")]
   )
 }
 var staticRenderFns = []
@@ -65753,7 +65761,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function(){},staticRenderFns:[]}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.notifications.length
+    ? _c("li", { staticClass: "dropdown nav-item" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "dropdown-menu" },
+          _vm._l(_vm.notifications, function(notification) {
+            return _c("li", [
+              _c("a", {
+                attrs: { href: notification.data.link },
+                domProps: { textContent: _vm._s(notification.data.message) },
+                on: {
+                  click: function($event) {
+                    _vm.markAsRead(notification)
+                  }
+                }
+              })
+            ])
+          })
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "nav-link dropdown-toggle",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [_c("i", { staticClass: "fas fa-bell" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
