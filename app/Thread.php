@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\ThreadHasNewReply;
+use App\Events\ThreadReceivedNewReply;
+use App\Notifications\ThreadWasUpdated;
 use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,18 +14,13 @@ class Thread extends Model
 
     protected $guarded = [];
     protected $with = ['creator', 'channel'];
+    protected $appends = ['isSubscribedTo'];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope('replyCount', function ($builder)
-        {
-            $builder->withCount('replies');
-        });
-
-
-        static::deleting(function (Thread $thread){
+        static::deleting(function (Thread $thread) {
             $thread->replies->each->delete();
         });
     }
@@ -48,14 +46,75 @@ class Thread extends Model
         return $this->belongsTo(Channel::class);
     }
 
+
+    function subscribe($userId)
+    {
+        $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
+
+    /**
+     * @param $reply
+     * @return Model
+     */
     function addReply($reply)
     {
-        return $this->replies()->create($reply);
+
+        $reply = $this->replies()->create($reply);
+
+        event(new ThreadHasNewReply($this, $reply));
+
+//        $this->notifySubscribers($reply);
+
+        return $reply;
+
+    }
+
+    public function notifySubscribers($reply){
+        $this->subscriptions
+            ->where('user_id'.'!='. $reply->user_id )
+            ->each
+            ->notify($reply);
     }
 
     function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+
+    function unsubscribe($userId)
+    {
+        $this->subscriptions()
+            ->where('user_id', $userId ?: auth()->id())
+            ->delete();
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
+    }
+
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
+    }
+
+    /**
+     * @param $user
+     * @return bool
+     * @throws \Exception
+     */
+    public function hasUpdatesFor($user)
+    {
+//        look in cache for a proper key
+        $key = $user->visitedThreadCacheKey($this);
+
+        // compare the carbon instance with the thread->updated_at
+        return $this->updated_at > cache($key);
     }
 
 }

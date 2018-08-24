@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Carbon\Carbon;
 
 class ThreadTest extends TestCase
 {
@@ -61,5 +62,61 @@ class ThreadTest extends TestCase
         $thread = create('App\Thread');
 
         $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+    }
+
+    /** @test */
+    function a_thread_can_be_subscribed_to()
+    {
+        $thread = create('App\Thread');
+
+        $thread->subscribe($userId = 1);
+
+        $this->assertEquals(1,
+            $thread->subscriptions()->where('user_id', $userId)->count());
+    }
+
+
+    /** @test */
+    function a_thread_can_be_unsubscribed_to()
+    {
+        $thread = create('App\Thread');
+
+        $thread->subscribe($userId = 1);
+
+        $thread->unsubscribe($userId = 1);
+
+        $this->assertEquals(0 ,
+            $thread->subscriptions()->where('user_id', $userId)->count());
+    }
+
+    /** @test */
+    function thread_knows_if_an_authenticated_user_is_subscribed_to_it()
+    {
+        $thread = create('App\Thread');
+
+        $this->signIn();
+
+        $this->assertFalse($thread->isSubscribedTo);
+
+        $thread->subscribe(auth()->id());
+
+        $this->assertTrue($thread->isSubscribedTo);
+
+    }
+
+    /** @test */
+    public function a_thread_can_check_if_authenticated_user_has_read_all_replies()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        tap(auth()->user(), function ($user) use ($thread) {
+            $this->assertTrue($thread->hasUpdatesFor($user));
+
+            $user->read($thread);
+
+            $this->assertFalse($thread->hasUpdatesFor($user));
+        });
     }
 }

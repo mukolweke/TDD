@@ -17,6 +17,19 @@ class Reply extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($reply){
+            $reply->thread->increment('replies_count');
+        });
+
+        static::deleted(function ($reply){
+            $reply->thread->decrement('replies_count');
+        });
+    }
+
     /**
      * A reply belongs to a thread.
      *

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Inspections\Spam;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
@@ -19,23 +20,32 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
+    /**
+     * @param $channelId
+     * @param Thread $thread
+     * @param Spam $spam
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
+     */
     public function store($channelId, Thread $thread)
     {
-        $this->validate(request(), [
-            'body' => 'required'
-        ]);
-        // add reply
-        $reply = $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id()
-        ]);
+        try{
+            $this->validateReply();
+            // add reply
+            $reply = $thread->addReply([
+                'body' => request('body'),
+                'user_id' => auth()->id()
+            ]);
 
-        if (request()->expectsJson()) {
-            return $reply->load('owner');
+            if (request()->expectsJson()) {
+                return $reply->load('owner');
+            }
+        }catch (\Exception $e){
+            return response('Sorry Reply can\'t be saved at this time', 422);
         }
+
+//        return $reply->load('owner');
         // redirect
-        return redirect($thread->path())
-            ->with('flash', 'Your reply has been posted');
+        return back()->with('flash', 'Your reply has been posted');
     }
 
     /**
@@ -58,10 +68,33 @@ class RepliesController extends Controller
     }
 
 
-    public function update(Reply $reply)
+    /**
+     * @param Reply $reply
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(Reply $reply, Spam $spam)
     {
-        $reply->update(request(['body']));
 
+        $this->authorize('update', $reply);
+
+        try{
+            $this->validateReply();
+
+            $reply->update(request(['body']));
+        }catch (\Exception $e){
+            return response('Sorry Reply can\'t be saved at this time', 422);
+        }
+
+
+    }
+
+    /**
+     * @param Spam $spam
+     */
+    public function validateReply(): void
+    {
+        $this->validate(request(), ['body' => 'required']);
+        resolve(Spam::class)->detect(request('body'));
     }
 
 

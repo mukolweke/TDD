@@ -34,7 +34,7 @@ class ParticipateInForumTest extends TestCase
         $this->assertDatabaseHas('replies', ['body' => $reply->body]);
 
         // 1
-        $this->assertEquals(0, $thread->fresh()->replies_count);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     /** @test */
@@ -71,6 +71,8 @@ class ParticipateInForumTest extends TestCase
 
         $this->assertDatabaseMissing('replies', ['id'=>$reply->id]);
 
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
+
     }
 
     /** @test */
@@ -96,5 +98,21 @@ class ParticipateInForumTest extends TestCase
 
         $this->patch("/replies/{$reply->id}", ['body'=> $updatedReply])
             ->assertRedirect('login');
+    }
+    /** @test */
+    public function replies_that_contain_spam_may_not_be_created()
+    {
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply', [
+            'body' => 'Yahoo Customer Support'
+        ]);
+
+        $this->json('post', $thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
+
     }
 }
