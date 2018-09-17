@@ -3,13 +3,13 @@
         <div class="card-header">
             <div class="level">
                 <h5 class="flex">
-                    <a :href="'/profiles/' + reply.owner.name"
-                       v-text="reply.owner.name">
+                    <a :href="'/profiles/' + data.owner.name"
+                       v-text="data.owner.name">
                     </a> said <span v-text="ago"></span>
                 </h5>
 
                 <div v-if="signedIn">
-                    <favorite :reply="reply"></favorite>
+                    <favorite :reply="data"></favorite>
                 </div>
             </div>
         </div>
@@ -18,6 +18,7 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
+                        <label for="body"></label>
                         <textarea class="form-control"
                                   id="body"
                                   v-model="body"
@@ -40,7 +41,7 @@
             </div>
 
             <!--<button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">-->
-                <!--Best Reply?-->
+            <!--Best Reply?-->
             <!--</button>-->
         </div>
     </div>
@@ -51,22 +52,22 @@
     import moment from 'moment';
 
     export default {
-        props: ['reply'],
+        props: ['data'],
 
         components: {Favorite},
 
         data() {
             return {
                 editing: false,
-                id: this.reply.id,
-                body: this.reply.body,
-                isBest: this.reply.isBest,
+                id: this.data.id,
+                body: this.data.body,
+                isBest: this.data.isBest,
             };
         },
 
         computed: {
             ago() {
-                return moment(this.reply.created_at).fromNow() + ' ...';
+                return moment(this.data.created_at).fromNow() + ' ...';
             },
 
             signedIn() {
@@ -74,7 +75,7 @@
             },
 
             canUpdate() {
-                return this.authorize(user => this.reply.user_id == user.id)
+                return this.authorize(user => this.data.user_id == user.id)
             }
         },
 
