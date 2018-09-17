@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="(reply, index) in items" :key="reply.id">
-            <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
+            <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
 
         <paginator :dataSet="dataSet" @changed="fetch"></paginator>
@@ -11,20 +11,18 @@
 </template>
 
 <script>
-    import ReplyView from './Reply'
+    import Reply from './Reply'
     import NewReply from './NewReply';
     import collection from '../mixins/collections'
 
     export default {
 
-        components: { ReplyView, NewReply },
+        components: { Reply, NewReply },
 
         mixins:[collection],
 
         data() {
-            return{
-                dataSet: false,
-            }
+            return{ dataSet: false }
         },
 
         created(){

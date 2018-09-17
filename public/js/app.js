@@ -64024,8 +64024,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('thread-view', __webpack_r
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('user-notifications', __webpack_require__(197));
 
-xxxxx;
-
 /***/ }),
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -64261,14 +64259,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    components: { ReplyView: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply___default.a },
+    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply___default.a },
 
     mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_collections__["a" /* default */]],
 
     data: function data() {
-        return {
-            dataSet: false
-        };
+        return { dataSet: false };
     },
     created: function created() {
         this.fetch();
@@ -64402,28 +64398,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['reply'],
+    props: ['data'],
 
     components: { Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default.a },
 
     data: function data() {
         return {
             editing: false,
-            id: this.reply.id,
-            body: this.reply.body,
-            isBest: this.reply.isBest
+            id: this.data.id,
+            body: this.data.body,
+            isBest: this.data.isBest
         };
     },
 
 
     computed: {
         ago: function ago() {
-            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.reply.created_at).fromNow() + ' ...';
+            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.data.created_at).fromNow() + ' ...';
         },
         signedIn: function signedIn() {
             return window.App.signedIn;
@@ -64432,7 +64429,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             return this.authorize(function (user) {
-                return _this.reply.user_id == user.id;
+                return _this.data.user_id == user.id;
             });
         }
     },
@@ -64885,15 +64882,15 @@ var render = function() {
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
             _c("a", {
-              attrs: { href: "/profiles/" + _vm.reply.owner.name },
-              domProps: { textContent: _vm._s(_vm.reply.owner.name) }
+              attrs: { href: "/profiles/" + _vm.data.owner.name },
+              domProps: { textContent: _vm._s(_vm.data.owner.name) }
             }),
             _vm._v(" said "),
             _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
           ]),
           _vm._v(" "),
           _vm.signedIn
-            ? _c("div", [_c("favorite", { attrs: { reply: _vm.reply } })], 1)
+            ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
             : _vm._e()
         ])
       ]),
@@ -64909,6 +64906,8 @@ var render = function() {
             ? _c("div", [
                 _c("form", { on: { submit: _vm.update } }, [
                   _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "body" } }),
+                    _vm._v(" "),
                     _c("textarea", {
                       directives: [
                         {
@@ -65220,8 +65219,8 @@ var render = function() {
           "div",
           { key: reply.id },
           [
-            _c("reply-view", {
-              attrs: { reply: reply },
+            _c("reply", {
+              attrs: { data: reply },
               on: {
                 deleted: function($event) {
                   _vm.remove(index)
